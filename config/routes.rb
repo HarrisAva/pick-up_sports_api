@@ -1,10 +1,33 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+ 
+  # # localhost:3000/users
+  # get '/users', to: 'users#index'
 
-  # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
-  # Can be used by load balancers and uptime monitors to verify that the app is live.
-  get "up" => "rails/health#show", as: :rails_health_check
+  # # localhost:3000/users/1
+  # get '/users/:id', to: 'users#show'
 
-  # Defines the root path route ("/")
-  # root "posts#index"
+  #  # localhost:3000/users/
+  # post '/users', to: 'users#create'
+
+  #  # localhost:3000/users/3
+  # put '/users/:id', to: 'users#update'
+
+  # # localhost:3000/users/3
+  # delete '/users/:id', to: 'users#destroy'
+
+  # routes above are already defined in Rails, so they can be removed and replace by 'resources'
+  
+  # resources :users
+
+  # #customized routes
+  # get '/users/:id/posts', to: "users#posts_index"
+
+  # the above resources and customized routes can be modified as below:
+    #no need to keep /users/:id
+  resources :users do
+    get 'posts', to: "users#posts_index"
+  end
+
+  resources :posts, only: [:create, :update, :destroy]
+
 end
