@@ -50,7 +50,7 @@ class UsersController < ApplicationController
   end
   private
 
-  def set_user # need @ as the variable to access
+  def set_user # need @ as the variable to be accessed in Update and Destroy
     @user = User.find(params[:id])
   end
   def user_params

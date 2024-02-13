@@ -24,10 +24,13 @@ Rails.application.routes.draw do
 
   # the above resources and customized routes can be modified as below:
     #no need to keep /users/:id
+
+  resources :events
+  resources :posts
   resources :users do
     get 'posts', to: "users#posts_index"
   end
 
-  resources :posts
+  
 
 end

@@ -69,7 +69,7 @@ RSpec.describe "Posts", type: :request do # request to post to database
     context "with invalid params" do
 
       before do
-        post_attributes = attributes_for(:post, user_id: nil)
+        post_attributes = attributes_for(:post, content: nil)
         post "/posts", params: post_attributes
       end
 
