@@ -3,13 +3,16 @@ require 'rails_helper'
 RSpec.describe "Posts", type: :request do # request to post to database
   describe "GET /posts" do
     # create a specific post, we have at least one post
+    let(:user) {create(:user)}
+    let(:token) {auth_token_for_user(user)}
+
     let(:post) {create(:post)}
 
     # send a request for each specific test case we define here to post
     before do 
       # creating the post for every test case if they don't utilize it
       post # access to the post in order to create it
-      get "/posts"
+      get "/posts", headers: {Authorization: "Bearer #{token}"}
     end
 
     # returns a successful response
@@ -26,9 +29,12 @@ RSpec.describe "Posts", type: :request do # request to post to database
   # show 
     describe "GET /post/:id" do
     let(:post) {create(:post)}
+    let(:user) {create(:user)}
+    let(:token) {auth_token_for_user(user)}
 
     before do
-      get "/posts/#{post.id}" # to access this specific post 
+      get "/posts/#{post.id}", headers: {Authorization: "Bearer #{token}"}
+      # to access this specific post 
     end
 
     # returns a successful response
@@ -44,14 +50,16 @@ RSpec.describe "Posts", type: :request do # request to post to database
 
   # create 
   describe "POST /posts" do
+    let(:user) {create(:user)}
+    let(:token) {auth_token_for_user(user)}
+
     #valid params
     context "with valid params" do
-      let (:user) {create(:user)}
-
+  
       before do
         # make suer we have the attributes for when sending back to the request
-        post_attributes =  attributes_for(:post, user_id: user.id)
-        post "/posts", params: post_attributes
+        post_attributes =  attributes_for(:post)
+        post "/posts", params: post_attributes, headers: {Authorization: "Bearer #{token}"}
       end
 
       # returns a successful response
@@ -70,7 +78,7 @@ RSpec.describe "Posts", type: :request do # request to post to database
 
       before do
         post_attributes = attributes_for(:post, content: nil)
-        post "/posts", params: post_attributes
+        post "/posts", params: post_attributes, headers: {Authorization: "Bearer #{token}"}
       end
 
       it "returns a response with errors" do
@@ -81,6 +89,8 @@ RSpec.describe "Posts", type: :request do # request to post to database
 
   # update
   describe "PUT /posts/:id" do
+    let(:user) {create(:user)}
+    let(:token) {auth_token_for_user(user)}
 
     # valid params
     context "with valid params" do
@@ -88,7 +98,7 @@ RSpec.describe "Posts", type: :request do # request to post to database
 
       before do
         post_attributes = attributes_for(:post, content: "updated content")
-        put "/posts/#{post.id}", params: post_attributes
+        put "/posts/#{post.id}", params: post_attributes, headers: {Authorization: "Bearer #{token}"}
       end
 
       it "updates a post" do
@@ -108,7 +118,7 @@ RSpec.describe "Posts", type: :request do # request to post to database
       
       before do
         post_attributes = {content: nil}
-        put "/posts/#{post.id}", params: post_attributes
+        put "/posts/#{post.id}", params: post_attributes, headers: {Authorization: "Bearer #{token}"}
       end
       
       it "returns a response with errors" do
@@ -121,9 +131,11 @@ RSpec.describe "Posts", type: :request do # request to post to database
 
   describe "DELETE /post/:id" do
     let(:post){create(:post)}
+    let(:user) {create(:user)}
+    let(:token) {auth_token_for_user(user)}
 
     before do
-      delete "/posts/#{post.id}"
+      delete "/posts/#{post.id}", headers: {Authorization: "Bearer #{token}"}
     end
 
     it "deletes a post" do

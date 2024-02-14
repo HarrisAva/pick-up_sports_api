@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :set_user, only: [:show, :update, :destroy]
+  before_action :authenticate_request, only: [:index, :show, :update, :destroy]
 
   def index
     users = User.all 
@@ -11,7 +12,8 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-    render json: @user, status: 200
+     render json: UserBlueprint.render(@user, view: :normal), status: 200
+    # render json: UserBlueprint.render(@user, view: :profile), status: 200  # see profiles that include location, event, post, see user_blueprint
   end
 
   def create
@@ -54,7 +56,7 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
   def user_params
-    params.permit(:username, :email, :first_name, :last_name)
+    params.permit(:username, :email, :first_name, :last_name, :password, :password_confirmation)
 
   end
 end

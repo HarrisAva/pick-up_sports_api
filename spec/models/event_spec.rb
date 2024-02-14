@@ -10,7 +10,7 @@ RSpec.describe Event, type: :model do
     end
 
     it 'is not valid without a title' do
-      expect = build(:event, title:nil)
+      event = build(:event, title:nil)
       expect(event).not_to be_valid
     end
 

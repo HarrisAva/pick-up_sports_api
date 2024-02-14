@@ -5,12 +5,14 @@ RSpec.describe "Posts", type: :request do # request to user to database
   describe "GET /users" do
     # create a specific user, we have at least one user
     let(:user) {create(:user)}
+    # create a variable that is used as the token
+    let(:token) {auth_token_for_user(user)}
 
     # send a request for each specific test case we define here to user
     before do 
       # creating the user for every test case if they don't utilize it
       user # access to the user in order to create it
-      get "/users"
+      get "/users", headers: {Authorization: "Bearer #{token}"}
     end
 
     # returns a successful response
@@ -27,9 +29,11 @@ RSpec.describe "Posts", type: :request do # request to user to database
   # show 
     describe "GET /user/:id" do
     let(:user) {create(:user)}
+    let(:token) {auth_token_for_user(user)}
 
     before do
-      get "/users/#{user.id}" # to access this specific user and attach user.id from above
+      get "/users/#{user.id}", headers: {Authorization: "Bearer #{token}"}
+      # to access this specific user and attach user.id from above
     end
 
     # returns a successful response
@@ -50,6 +54,7 @@ RSpec.describe "Posts", type: :request do # request to user to database
       
       before do
         # make suer we have the attributes for when sending back to the request
+        # we don't need authorization to create a user (register)
         user_attributes = attributes_for(:user)
         post "/users", params: user_attributes
       end
@@ -85,10 +90,12 @@ RSpec.describe "Posts", type: :request do # request to user to database
     # valid params
     context "with valid params" do
       let(:user) {create(:user)}
+      let(:token) {auth_token_for_user(user)}
+
 
       before do
         user_attributes = { first_name: "John"}
-        put "/users/#{user.id}", params: user_attributes
+        put "/users/#{user.id}", params: user_attributes, headers: {Authorization: "Bearer #{token}"}
       end
 
       it "updates a user" do
@@ -105,10 +112,11 @@ RSpec.describe "Posts", type: :request do # request to user to database
     # invalid params
     context "with invalid params" do
       let(:user) {create(:user)}
+      let(:token) {auth_token_for_user(user)}
 
       before do
         user_attributes = {first_name: nil}
-        put "/users/#{user.id}", params: user_attributes
+        put "/users/#{user.id}", params: user_attributes, headers: {Authorization: "Bearer #{token}"}
       end
       
       it "returns a response with errors" do
@@ -121,9 +129,10 @@ RSpec.describe "Posts", type: :request do # request to user to database
 
   describe "DELETE /user/:id" do
     let(:user){create(:user)}
+    let(:token) {auth_token_for_user(user)}
 
     before do
-      delete "/users/#{user.id}"
+      delete "/users/#{user.id}", headers: {Authorization: "Bearer #{token}"}
     end
 
     it "deletes a user" do

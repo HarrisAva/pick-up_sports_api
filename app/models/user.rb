@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+    # give every instance of user 'password and password_confirmation attributes' (not a column of password_digest - this need to add to user model)
+    has_secure_password  
 
     validates :username, presence: true, uniqueness: true, length: {minimum: 3, maximum: 30}
     validate :validate_username
@@ -11,6 +13,8 @@ class User < ApplicationRecord
     has_one :profile, dependent: :destroy
     has_many :comments, dependent: :destroy
     has_one :location, as: :locationable, dependent: :destroy
+
+    after_create :create_profile
 
     # events that the user has created
     has_many :created_events, class_name: 'Event', foreign_key: 'user_id'

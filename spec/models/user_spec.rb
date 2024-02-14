@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
 
       expect(user).not_to be_valid
     end
-  end
+
   
     it 'is not valid without a last name' do
       user = build(:user, last_name: nil)
@@ -21,6 +21,28 @@ RSpec.describe User, type: :model do
 
       expect(user).not_to be_valid
     end
+
+    # password 
+
+    it 'is invalid when password is nill' do
+      user = build(:user, password: nil)
+
+      expect(user).not_to be_valid
+ 
+    end
+
+    # password_confirmation
+    it 'is invalid when password is nill' do
+      user = build(:user, password_confirmation: nil)
+ 
+    end
+
+    # hashes the password  - hashes and save it in password_digest
+    it 'hashes the password' do
+      user = create(:user)
+      expect(user.password_digest).not_to eq('password')
+    end
+  end
 
   context 'Uniqueness tests' do
       it 'is not valid without a unique username' do

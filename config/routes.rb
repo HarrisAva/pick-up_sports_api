@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # get 'profiles/show' # replace with scope :profile
+  get 'sessions/create'
  
   # # localhost:3000/users
   # get '/users', to: 'users#index'
@@ -25,7 +27,16 @@ Rails.application.routes.draw do
   # the above resources and customized routes can be modified as below:
     #no need to keep /users/:id
 
+  scope '/' do  
+    # scope adds onto the path itself to these request (grouping all of root paths)
+    post 'login', to: 'sessions#create' 
+    # route to sessions control and execute create action
+
+  end
   resources :events
+  scope :profiles do
+    get ':username', to: "profiles#show"
+  end
   resources :posts
   resources :users do
     get 'posts', to: "users#posts_index"
