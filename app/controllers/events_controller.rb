@@ -52,4 +52,4 @@ class EventsController < ApplicationController
     end
 end
 
-# use @current_user as our way to identify who that user is and if there needs to be any data that's associated with that user we can access it easily through authticate request
+# use @current_user as our way to identify who that user is and if there needs to be any data that's associated with that user we can access it easily through authenticate request
