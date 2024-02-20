@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Posts", type: :request do # request to post to database
   describe "GET /posts" do
     # create a specific post, we have at least one post
-    let(:user) {create(:user)}
+    let(:user) {create(:user)}  # need a user for every token
     let(:token) {auth_token_for_user(user)}
 
     let(:post) {create(:post)}

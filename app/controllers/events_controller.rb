@@ -2,11 +2,19 @@ class EventsController < ApplicationController
 
     # show, update, destroy need event_id defined in set_event def
     before_action :set_event, only: [:show, :update, :destroy]
-    before_action :authenticate_request
+    before_action :authenticate_request, except: [:index]
 
     def index
-        events = Event.all
-        render json: events, status: :ok
+        # events = Event.all
+        # render json: events, status: :ok
+
+        events = Event.order(created_at: :desc).page(params[:page]).per(12)
+        # display 12 event per page, sort by created_at
+
+        render json: {
+            events: EventBlueprint.render_as_hash(events, view: :short), total_pages: events.total_pages, current_page: event.current_page
+        }
+        # show how many pages left from the current page
     end
 
     def show
