@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :set_user, only: [:show, :update, :destroy]
-    before_action :authenticate_request, only: [:index, :show, :update, :destroy]
+     before_action :authenticate_request, only: [:index, :show, :update, :destroy]
 
   def index
     users = User.all 
@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
 
-     render json: UserBlueprint.render(@user, view: :normal), status: 200
+     render json: UserBlueprint.render(@user, view: :extend), status: 200
     # render json: UserBlueprint.render(@user, view: :profile), status: 200  # see profiles that include location, event, post, see user_blueprint
   end
 

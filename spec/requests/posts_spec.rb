@@ -57,9 +57,9 @@ RSpec.describe "Posts", type: :request do # request to post to database
     context "with valid params" do
   
       before do
-        # make suer we have the attributes for when sending back to the request
+        # make sure we have the attributes for post when sending back to the request
         post_attributes =  attributes_for(:post)
-        post "/posts", params: post_attributes, headers: {Authorization: "Bearer #{token}"}
+        post "/posts", params: post_attributes
       end
 
       # returns a successful response

@@ -8,6 +8,10 @@ class UserBlueprint < Blueprinter::Base
         fields :username
     end
 
+    view :extend do
+        fields :username, :email, :first_name, :last_name, :password_digest
+    end
+
     view :profile do  # see 'profiles' controller
         association :location, blueprint: LocationBlueprint
         association :posts, blueprint: PostBlueprint, view: :profile do |user, options| user.posts.order(create_at: :desc).limit(5)

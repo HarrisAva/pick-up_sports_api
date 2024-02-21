@@ -9,10 +9,13 @@ class EventsController < ApplicationController
         # render json: events, status: :ok
 
         events = Event.order(created_at: :desc).page(params[:page]).per(12)
-        # display 12 event per page, sort by created_at
+        # .page is from Kaminari
+        # display 12 events per page, sort by created_at
 
         render json: {
-            events: EventBlueprint.render_as_hash(events, view: :short), total_pages: events.total_pages, current_page: event.current_page
+            events: EventBlueprint.render_as_hash(events, view: :short), 
+            total_pages: events.total_pages, 
+            current_page: events.current_page
         }
         # show how many pages left from the current page
     end
@@ -22,7 +25,8 @@ class EventsController < ApplicationController
     end
 
     def create
-        event = @current_user.created_events.new(event_params)
+         event = @current_user.created_events.new(event_params)
+        # event = @current_user.events.new(event_params)
 
         if event.save
             render json: event, status: :created
