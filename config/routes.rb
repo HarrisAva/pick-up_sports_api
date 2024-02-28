@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  # get user info to use in FE (as current_user (currentUserSubject))
+  get 'web/bootstrap'
   # get 'profiles/show' # replace with scope :profile
   get 'sessions/create'
  

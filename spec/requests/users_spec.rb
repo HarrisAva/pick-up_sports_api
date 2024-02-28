@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Posts", type: :request do # request to user to database
+RSpec.describe "Users", type: :request do # request to user to database
   
   describe "GET /users" do
     # create a specific user, we have at least one user
