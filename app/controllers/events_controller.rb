@@ -20,8 +20,11 @@ class EventsController < ApplicationController
         # show how many pages left from the current page
     end
 
+    # localhost:3000/events/:id -> need to get event.id
     def show
-        render json: @event, status: :ok
+        # render json: @event, status: :ok
+        render json: EventBlueprint.render_as_hash(@event, view: :long), status: :ok   
+        #display event details page
     end
 
     def create
@@ -58,9 +61,9 @@ class EventsController < ApplicationController
         @event = Event.find(params[:id])
     end
 
-    def event_params # need event user_id (replace by @current_user that contain token with user id) for association test
-        params.permit(:title, :content, :start_date_time, :end_date_time, :guests, :sport_ids => [])
-
+    def event_params 
+        params.permit(:title, :content, :start_date_time, :end_date_time, :guests, :cover_image, :sport_ids => [])
+        # need event user_id (replace by @current_user that contain token with user id) for association test
     end
 end
 

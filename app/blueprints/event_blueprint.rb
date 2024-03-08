@@ -11,5 +11,11 @@ class EventBlueprint < Blueprinter::Base
         fields :title, :start_date_time, :end_date_time, :guests, :sports
         association :user, blueprint: UserBlueprint, view: :normal
     end
+
+    # to display event details page including content
+    view :long do 
+        fields :title, :start_date_time, :end_date_time, :guests, :sports, :content, :cover_image_url
+        association :user, blueprint: UserBlueprint, view: :normal
+    end
 end
 
